@@ -45,4 +45,11 @@ next-env.d.ts
 # local database
 dev.db
 dev.db-journal
+
+# zip exports
 *.zip
+
+# scratch and debug scripts
+scratch/
+*.scratch.js
+test-*.js
