@@ -1,5 +1,5 @@
 import React from 'react';
-import { PublicHeader } from '@/components/PublicHeader';
+import { PublicHeader } from '@/components/public/PublicHeader';
 import { PublicFooter } from '@/components/public/PublicFooter';
 import { prisma } from '@/lib/prisma';
 
