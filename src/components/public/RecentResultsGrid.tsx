@@ -15,9 +15,10 @@ export type RecentMatch = {
 type RecentResultsGridProps = {
   matches: RecentMatch[];
   categorySlug: string;
+  tournamentId: string;
 };
 
-export function RecentResultsGrid({ matches, categorySlug }: RecentResultsGridProps) {
+export function RecentResultsGrid({ matches, categorySlug, tournamentId }: RecentResultsGridProps) {
   return (
     <div className="mb-12">
       <div className="flex items-center justify-between mb-6">
@@ -26,7 +27,7 @@ export function RecentResultsGrid({ matches, categorySlug }: RecentResultsGridPr
           Últimos Resultados
         </h2>
         <Link 
-          href={`/categoria/${categorySlug}/calendario`}
+          href={`/tournaments/${tournamentId}/calendar`}
           className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg"
         >
           Ver todos
@@ -42,7 +43,7 @@ export function RecentResultsGrid({ matches, categorySlug }: RecentResultsGridPr
           {matches.map((match) => (
             <Link 
               key={match.id} 
-              href={`/categoria/${categorySlug}/calendario`} // Optionally add ?jornada=${match.matchdayNumber}
+              href={`/tournaments/${tournamentId}/calendar`} // Optionally add ?jornada=${match.matchdayNumber}
               className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition-all duration-300 p-5 group flex flex-col justify-between relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-3xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>

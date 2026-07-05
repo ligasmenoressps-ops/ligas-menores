@@ -149,7 +149,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         <MatchHeroCard match={heroMatch} stats={stats} />
         
         {recentMatches.length > 0 && (
-          <RecentResultsGrid matches={recentMatches} categorySlug={slug} />
+          <RecentResultsGrid matches={recentMatches} categorySlug={slug} tournamentId={tournament?.id || ''} />
         )}
         
         {standings.length > 0 && (
