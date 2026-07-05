@@ -1,19 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 
-export type RecentMatch = {
-  id: string;
-  homeTeam: { name: string; logoUrl: string | null };
-  awayTeam: { name: string; logoUrl: string | null };
-  homeGoals: number | null;
-  awayGoals: number | null;
-  date: Date;
-  venueName: string | null;
-  matchdayNumber: number;
-};
+import { MatchSummary } from '@/lib/types';
+import { formatMatchDate } from '@/lib/format';
 
 type RecentResultsGridProps = {
-  matches: RecentMatch[];
+  matches: MatchSummary[];
   categorySlug: string;
   tournamentId: string;
 };
@@ -50,7 +42,7 @@ export function RecentResultsGrid({ matches, categorySlug, tournamentId }: Recen
               
               <div className="flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-5">
                 <span className="bg-slate-100 px-2 py-1 rounded-md text-slate-600">Jornada {match.matchdayNumber}</span>
-                <span>{new Date(match.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}</span>
+                <span>{formatMatchDate(match.date, match.time, 'short')}</span>
               </div>
               
               <div className="flex items-center justify-between mb-4">

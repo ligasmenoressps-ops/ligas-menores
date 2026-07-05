@@ -4,18 +4,10 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight, Calendar } from 'lucide-react';
 
-export type MatchPreview = {
-  id: string;
-  homeTeamName: string;
-  awayTeamName: string;
-  homeGoals: number | null;
-  awayGoals: number | null;
-  time: Date | null;
-  date: Date;
-  categoryName: string;
-};
+import { MatchSummary } from '@/lib/types';
+import { formatMatchDate } from '@/lib/format';
 
-export function RecentResultsTabs({ resultsByCategory }: { resultsByCategory: Record<string, MatchPreview[]> }) {
+export function RecentResultsTabs({ resultsByCategory }: { resultsByCategory: Record<string, MatchSummary[]> }) {
   const categories = Object.keys(resultsByCategory);
   const [activeTab, setActiveTab] = useState<string>('Todas');
 
@@ -65,18 +57,16 @@ export function RecentResultsTabs({ resultsByCategory }: { resultsByCategory: Re
                     {/* Date/Time */}
                     <div className="text-xs text-gray-500 font-medium flex items-center gap-1 min-w-[100px]">
                       <Calendar className="w-3 h-3" />
-                      {match.time 
-                        ? new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(match.time) 
-                        : new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }).format(match.date)}
+                      {formatMatchDate(match.date, match.time, 'full')}
                     </div>
                     
                     {/* Teams and Score */}
                     <div className="flex-1 flex items-center justify-center sm:justify-start md:justify-center gap-3">
-                      <span className={`text-sm md:text-base font-bold text-right flex-1 truncate ${match.homeGoals! > match.awayGoals! ? 'text-brand-dark' : 'text-gray-600'}`}>{match.homeTeamName}</span>
+                      <span className={`text-sm md:text-base font-bold text-right flex-1 truncate ${match.homeGoals! > match.awayGoals! ? 'text-brand-dark' : 'text-gray-600'}`}>{match.homeTeam.name}</span>
                       <div className="bg-gray-100 text-brand-dark px-3 py-1 rounded-md font-black text-lg tracking-widest tabular-nums">
                         {match.homeGoals} - {match.awayGoals}
                       </div>
-                      <span className={`text-sm md:text-base font-bold text-left flex-1 truncate ${match.awayGoals! > match.homeGoals! ? 'text-brand-dark' : 'text-gray-600'}`}>{match.awayTeamName}</span>
+                      <span className={`text-sm md:text-base font-bold text-left flex-1 truncate ${match.awayGoals! > match.homeGoals! ? 'text-brand-dark' : 'text-gray-600'}`}>{match.awayTeam.name}</span>
                     </div>
 
                     {activeTab === 'Todas' && (

@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { CategoryTabs } from '@/components/public/CategoryTabs';
 import { MatchHeroCard, MatchHeroData, CategoryStatsData } from '@/components/public/MatchHeroCard';
-import { RecentResultsGrid, RecentMatch } from '@/components/public/RecentResultsGrid';
+import { RecentResultsGrid } from '@/components/public/RecentResultsGrid';
+import { MatchSummary } from '@/lib/types';
 import { StandingsPreview } from '@/components/public/StandingsPreview';
 import { calcularTabla } from '@/lib/standings';
 
@@ -50,7 +51,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   });
 
   let heroMatch: MatchHeroData | null = null;
-  let recentMatches: RecentMatch[] = [];
+  let recentMatches: MatchSummary[] = [];
   let standings: import('@/lib/standings').StandingsRow[] = [];
   let stats: CategoryStatsData = {
     leader: null,

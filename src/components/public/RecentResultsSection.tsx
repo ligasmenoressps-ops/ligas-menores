@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { RecentResultsTabs, MatchPreview } from './RecentResultsTabs';
+import { RecentResultsTabs } from './RecentResultsTabs';
+import { MatchSummary } from '@/lib/types';
 
 export async function RecentResultsSection() {
   const playedMatches = await prisma.match.findMany({
@@ -21,7 +22,7 @@ export async function RecentResultsSection() {
 
   const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } });
   
-  const resultsByCategory: Record<string, MatchPreview[]> = {};
+  const resultsByCategory: Record<string, MatchSummary[]> = {};
   categories.forEach(cat => {
     resultsByCategory[cat.name] = [];
   });
@@ -31,8 +32,8 @@ export async function RecentResultsSection() {
     if (resultsByCategory[catName] && resultsByCategory[catName].length < 7) {
       resultsByCategory[catName].push({
         id: match.id,
-        homeTeamName: match.homeTeam.name,
-        awayTeamName: match.awayTeam.name,
+        homeTeam: { name: match.homeTeam.name, logoUrl: match.homeTeam.logoUrl },
+        awayTeam: { name: match.awayTeam.name, logoUrl: match.awayTeam.logoUrl },
         homeGoals: match.homeGoals,
         awayGoals: match.awayGoals,
         time: match.time,
