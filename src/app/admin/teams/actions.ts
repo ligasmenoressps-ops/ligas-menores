@@ -3,8 +3,7 @@
 import { prisma } from '@/lib/prisma'
 import { getSession } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
-import { writeFile } from 'fs/promises'
-import path from 'path'
+import { supabaseAdmin } from '@/lib/supabase'
 
 export async function updateTeam(prevState: any, formData: FormData) {
   const session = await getSession()
@@ -37,16 +36,26 @@ export async function updateTeam(prevState: any, formData: FormData) {
         return { error: 'La imagen no debe pesar más de 2MB' }
       }
 
-      // Guardar el archivo en public/uploads
-      const bytes = await logoFile.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
       const extension = logoFile.name.split('.').pop()
       const fileName = `team-${teamId}-${Date.now()}.${extension}`
-      const uploadPath = path.join(process.cwd(), 'public', 'uploads', fileName)
+      
+      const { data, error } = await supabaseAdmin.storage
+        .from('team-logos')
+        .upload(fileName, logoFile, {
+          contentType: logoFile.type,
+          upsert: false
+        })
 
-      await writeFile(uploadPath, buffer)
-      newLogoUrl = `/uploads/${fileName}`
+      if (error) {
+        console.error('Supabase upload error:', error)
+        return { error: 'Error al subir la imagen a la nube' }
+      }
+
+      const { data: publicUrlData } = supabaseAdmin.storage
+        .from('team-logos')
+        .getPublicUrl(fileName)
+
+      newLogoUrl = publicUrlData.publicUrl
     }
 
     // Actualizar en DB
