@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Category {
+  id          String       @id @default(uuid())
+  name        String       @unique // U7, U9, U11, U13, U15, U17
+  tournaments Tournament[]
+  teams       Team[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model TournamentFormat {
+  id            String       @id @default(uuid())
+  name          String
+  bracketConfig Json
+  tournaments   Tournament[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+enum TournamentStatus {
+  DRAFT
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Tournament {
+  id         String             @id @default(uuid())
+  name       String
+  category   Category           @relation(fields: [categoryId], references: [id])
+  categoryId String
+  season     String
+  status     TournamentStatus   @default(DRAFT)
+  format     TournamentFormat   @relation(fields: [formatId], references: [id])
+  formatId   String
+  teams      TournamentTeam[]
+  matchdays  Matchday[]
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+}
+
+model Team {
+  id           String           @id @default(uuid())
+  name         String
+  logoUrl      String?
+  primaryColor String?
+  category     Category         @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  tournaments  TournamentTeam[]
+  users        User[]
+  homeMatches  Match[]          @relation("HomeTeam")
+  awayMatches  Match[]          @relation("AwayTeam")
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model TournamentTeam {
+  id             String     @id @default(uuid())
+  tournament     Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId   String
+  team           Team       @relation(fields: [teamId], references: [id])
+  teamId         String
+  assignedNumber Int?
+  group          String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@unique([tournamentId, teamId])
+}
+
+model Venue {
+  id        String   @id @default(uuid())
+  name      String
+  address   String?
+  matches   Match[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Matchday {
+  id           String     @id @default(uuid())
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId String
+  number       Int
+  date         DateTime
+  matches      Match[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+enum MatchStatus {
+  SCHEDULED
+  PLAYED
+  SUSPENDED
+  POSTPONED
+}
+
+model Match {
+  id          String      @id @default(uuid())
+  matchday    Matchday    @relation(fields: [matchdayId], references: [id])
+  matchdayId  String
+  homeTeam    Team        @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  homeTeamId  String
+  awayTeam    Team        @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  awayTeamId  String
+  venue       Venue?      @relation(fields: [venueId], references: [id])
+  venueId     String?
+  time        DateTime?
+  homeGoals   Int?
+  awayGoals   Int?
+  homePenalties Int?
+  awayPenalties Int?
+  status      MatchStatus @default(SCHEDULED)
+  phase       String      // e.g. "Group Stage", "Quarterfinals"
+  delegate    User?       @relation("MatchDelegate", fields: [delegateId], references: [id])
+  delegateId  String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum Role {
+  ADMIN
+  DELEGATE
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(DELEGATE)
+  team         Team?    @relation(fields: [teamId], references: [id])
+  teamId       String?
+  matchesAsDelegate Match[] @relation("MatchDelegate")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
