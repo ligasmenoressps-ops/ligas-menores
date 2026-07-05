@@ -20,7 +20,7 @@ export function CategoryTabs({ currentCategorySlug, currentCategoryName, activeT
     { label: 'Posiciones', href: `/tournaments/${activeTournamentId}/standings` },
     { label: 'Calendario', href: `/tournaments/${activeTournamentId}/calendar` },
     { label: 'Equipos', href: `/tournaments/${activeTournamentId}/teams` },
-    { label: 'Fixture/Bracket', href: `/tournaments/${activeTournamentId}/bracket` },
+    { label: 'Fase Final', href: `/tournaments/${activeTournamentId}/bracket` },
   ] : [
     { label: 'Resumen', href: `/categoria/${currentCategorySlug}` },
   ];
