@@ -8,18 +8,10 @@ type CategoryTabsProps = {
   currentCategorySlug: string;
   currentCategoryName: string;
   activeTournamentId?: string | null;
+  categories: { name: string; slug?: string }[];
 };
 
-const CATEGORIES = [
-  { name: 'U7', slug: 'u7' },
-  { name: 'U9', slug: 'u9' },
-  { name: 'U11', slug: 'u11' },
-  { name: 'U13', slug: 'u13' },
-  { name: 'U15', slug: 'u15' },
-  { name: 'U17', slug: 'u17' },
-];
-
-export function CategoryTabs({ currentCategorySlug, currentCategoryName, activeTournamentId }: CategoryTabsProps) {
+export function CategoryTabs({ currentCategorySlug, currentCategoryName, activeTournamentId, categories }: CategoryTabsProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -46,9 +38,12 @@ export function CategoryTabs({ currentCategorySlug, currentCategoryName, activeT
               onChange={(e) => router.push(`/categoria/${e.target.value}`)}
               aria-label="Seleccionar categoría"
             >
-              {CATEGORIES.map(cat => (
-                <option key={cat.slug} value={cat.slug}>{cat.name}</option>
-              ))}
+              {categories.map(cat => {
+                const catSlug = cat.slug || cat.name.toLowerCase();
+                return (
+                  <option key={catSlug} value={catSlug}>{cat.name}</option>
+                );
+              })}
             </select>
           </h1>
         </div>

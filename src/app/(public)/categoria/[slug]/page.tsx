@@ -20,6 +20,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
+  // Fetch all categories for the tab navigation
+  const allCategories = await prisma.category.findMany({
+    orderBy: { name: 'asc' },
+    select: { name: true }
+  });
+
   // Find active tournament for this category
   const tournament = await prisma.tournament.findFirst({
     where: { categoryId: category.id },
@@ -142,7 +148,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       <CategoryTabs 
         currentCategorySlug={slug} 
         currentCategoryName={categoryName} 
-        activeTournamentId={tournament?.id || null} 
+        activeTournamentId={tournament?.id || null}
+        categories={allCategories}
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
