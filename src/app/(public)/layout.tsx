@@ -9,9 +9,11 @@ export default async function PublicLayout({ children }: { children: React.React
     orderBy: { name: 'asc' }
   });
 
+  const settings = await prisma.systemSettings.findFirst();
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
-      <PublicHeader categories={categories} />
+      <PublicHeader categories={categories} settings={settings ? { appName: settings.appName, appLogoUrl: settings.appLogoUrl } : undefined} />
       <main className="flex-grow">
         {children}
       </main>

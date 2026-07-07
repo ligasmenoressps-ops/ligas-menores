@@ -39,6 +39,9 @@ export default async function AdminLayout({
                     </button>
                     <div className="absolute top-full left-0 hidden group-hover:block w-48 z-50 pt-1">
                       <div className="bg-white shadow-lg rounded-md border border-gray-200 py-1">
+                        <Link href="/admin/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                          Ajustes Generales
+                        </Link>
                         <Link href="/admin/users" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
                           Usuarios
                         </Link>

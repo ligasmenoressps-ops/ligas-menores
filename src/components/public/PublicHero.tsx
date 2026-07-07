@@ -58,15 +58,19 @@ export async function PublicHero() {
 
   const mostActiveTournament = sortedTournaments.length > 0 ? sortedTournaments[0] : null;
 
+  const settings = await prisma.systemSettings.findFirst()
+  const appName = settings?.appName || 'Ligas Menores'
+  const heroSubtitle = settings?.heroSubtitle || 'Sigue de cerca a las futuras estrellas del fútbol.'
+
   return (
     <div className="bg-brand-dark pt-8 pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-4xl font-extrabold text-white tracking-tight">
-            Ligas Menores
+            {appName}
           </h1>
           <p className="mt-2 text-xl text-gray-400">
-            Sigue de cerca a las futuras estrellas del fútbol.
+            {heroSubtitle}
           </p>
         </div>
 

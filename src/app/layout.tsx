@@ -12,10 +12,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Ligas Menores | Plataforma de Torneos de Fútbol Juvenil",
-  description: "Plataforma integral para gestionar torneos, equipos, calendarios y estadísticas de ligas menores.",
-};
+import { prisma } from '@/lib/prisma';
+
+export async function generateMetadata(): Promise<Metadata> {
+  let appName = "Ligas Menores";
+  let subtitle = "Plataforma integral para gestionar torneos, equipos, calendarios y estadísticas de ligas menores.";
+  
+  try {
+    const settings = await prisma.systemSettings.findFirst();
+    if (settings) {
+      appName = settings.appName;
+      if (settings.heroSubtitle) subtitle = settings.heroSubtitle;
+    }
+  } catch (e) {
+    console.error("Error fetching settings for metadata", e);
+  }
+
+  return {
+    title: `${appName} | Plataforma de Torneos`,
+    description: subtitle,
+  };
+}
 
 export default function RootLayout({
   children,

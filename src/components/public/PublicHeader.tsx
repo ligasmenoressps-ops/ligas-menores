@@ -9,7 +9,7 @@ interface Category {
   slug?: string; // we'll use name.toLowerCase() if slug is not provided
 }
 
-export function PublicHeader({ categories }: { categories: Category[] }) {
+export function PublicHeader({ categories, settings }: { categories: Category[], settings?: { appName: string, appLogoUrl: string | null } }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -33,10 +33,14 @@ export function PublicHeader({ categories }: { categories: Category[] }) {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center text-white font-black text-xl shadow-sm">
-                LM
-              </div>
-              <span className="font-black text-2xl tracking-tight hidden sm:block">Ligas Menores</span>
+              {settings?.appLogoUrl ? (
+                <img src={settings.appLogoUrl} alt={settings?.appName || 'Logo'} className="w-10 h-10 object-contain rounded-full bg-white p-1" />
+              ) : (
+                <div className="w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center text-white font-black text-xl shadow-sm">
+                  {settings?.appName ? settings.appName.substring(0, 2).toUpperCase() : 'LM'}
+                </div>
+              )}
+              <span className="font-black text-2xl tracking-tight hidden sm:block">{settings?.appName || 'Ligas Menores'}</span>
             </Link>
           </div>
 
