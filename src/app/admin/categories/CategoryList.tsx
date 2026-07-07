@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { updateCategory } from './actions'
-import { Category } from '@prisma/client'
+import { Category } from '@/generated/prisma/client'
 import Link from 'next/link'
 
 export default function CategoryList({ categories }: { categories: (Category & { _count: { teams: number, tournaments: number } })[] }) {

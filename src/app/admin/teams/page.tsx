@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { getSession } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import EditTeamForm from './EditTeamForm'
-import { Team, Category, User } from '@prisma/client'
+import { Team, Category, User } from '@/generated/prisma/client'
 import CategoryFilter from './CategoryFilter'
 import CreateTeamForm from './CreateTeamForm'
 
