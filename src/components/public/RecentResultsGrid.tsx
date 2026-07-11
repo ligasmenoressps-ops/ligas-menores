@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { MatchSummary } from '@/lib/types';
 import { formatMatchDate } from '@/lib/format';
@@ -50,7 +51,7 @@ export function RecentResultsGrid({ matches, categorySlug, tournamentId }: Recen
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center p-1.5 border border-slate-100 flex-shrink-0">
                     {match.homeTeam.logoUrl ? (
-                      <img src={match.homeTeam.logoUrl} alt={match.homeTeam.name} className="w-full h-full object-contain" />
+                      <Image src={match.homeTeam.logoUrl} alt={match.homeTeam.name} width={40} height={40} className="w-full h-full object-contain" />
                     ) : (
                       <div className="text-slate-400 font-bold text-xs">{match.homeTeam.name.substring(0,2).toUpperCase()}</div>
                     )}
@@ -70,7 +71,7 @@ export function RecentResultsGrid({ matches, categorySlug, tournamentId }: Recen
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center p-1.5 border border-slate-100 flex-shrink-0">
                     {match.awayTeam.logoUrl ? (
-                      <img src={match.awayTeam.logoUrl} alt={match.awayTeam.name} className="w-full h-full object-contain" />
+                      <Image src={match.awayTeam.logoUrl} alt={match.awayTeam.name} width={40} height={40} className="w-full h-full object-contain" />
                     ) : (
                       <div className="text-slate-400 font-bold text-xs">{match.awayTeam.name.substring(0,2).toUpperCase()}</div>
                     )}

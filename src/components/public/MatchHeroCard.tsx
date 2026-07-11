@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export type MatchHeroData = {
   id: string;
@@ -50,7 +51,7 @@ export function MatchHeroCard({ match, stats }: MatchHeroCardProps) {
               <div className="flex flex-col items-center flex-1">
                 <div className="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center p-3 mb-4 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
                   {match.homeTeam.logoUrl ? (
-                    <img src={match.homeTeam.logoUrl} alt={match.homeTeam.name} className="w-full h-full object-contain" />
+                    <Image src={match.homeTeam.logoUrl} alt={match.homeTeam.name} width={128} height={128} className="w-full h-full object-contain" />
                   ) : (
                     <div className="w-full h-full bg-slate-100 rounded-full flex items-center justify-center text-slate-400 font-black text-2xl md:text-4xl">
                       {match.homeTeam.name.substring(0, 2).toUpperCase()}
@@ -83,7 +84,7 @@ export function MatchHeroCard({ match, stats }: MatchHeroCardProps) {
               <div className="flex flex-col items-center flex-1">
                 <div className="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center p-3 mb-4 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
                   {match.awayTeam.logoUrl ? (
-                    <img src={match.awayTeam.logoUrl} alt={match.awayTeam.name} className="w-full h-full object-contain" />
+                    <Image src={match.awayTeam.logoUrl} alt={match.awayTeam.name} width={128} height={128} className="w-full h-full object-contain" />
                   ) : (
                     <div className="w-full h-full bg-slate-100 rounded-full flex items-center justify-center text-slate-400 font-black text-2xl md:text-4xl">
                       {match.awayTeam.name.substring(0, 2).toUpperCase()}
@@ -120,7 +121,7 @@ export function MatchHeroCard({ match, stats }: MatchHeroCardProps) {
                 )}
               </div>
               {stats.leader?.logoUrl && (
-                <img src={stats.leader.logoUrl} alt="Líder" className="w-12 h-12 object-contain drop-shadow-sm" />
+                <Image src={stats.leader.logoUrl} alt="Líder" width={48} height={48} className="w-12 h-12 object-contain drop-shadow-sm" />
               )}
             </div>
             

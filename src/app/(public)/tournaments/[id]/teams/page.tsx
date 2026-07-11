@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import Image from 'next/image'
 
 export default async function PublicTeamsPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params
@@ -22,7 +23,7 @@ export default async function PublicTeamsPage(props: { params: Promise<{ id: str
         {tournament.teams.map((tTeam) => (
           <div key={tTeam.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col items-center justify-center hover:shadow-md transition-shadow">
             {tTeam.team.logoUrl ? (
-              <img src={tTeam.team.logoUrl} alt={tTeam.team.name} className="w-24 h-24 object-contain mb-4" />
+              <Image src={tTeam.team.logoUrl} alt={tTeam.team.name} width={96} height={96} className="w-24 h-24 object-contain mb-4" />
             ) : (
               <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-4">
                 <span className="text-gray-400 text-sm font-medium">Sin Logo</span>

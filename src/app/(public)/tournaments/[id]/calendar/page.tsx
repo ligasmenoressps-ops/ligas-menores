@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import Image from 'next/image'
 
 export default async function PublicCalendarPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params
@@ -55,7 +56,7 @@ export default async function PublicCalendarPage(props: { params: Promise<{ id: 
                         <div className="flex items-center space-x-2 sm:space-x-3 w-5/12 justify-end min-w-0">
                           <span className="text-sm font-medium text-gray-900 text-right truncate">{match.homeTeam.name}</span>
                           {match.homeTeam.logoUrl ? (
-                            <img src={match.homeTeam.logoUrl} className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0" alt="" />
+                            <Image src={match.homeTeam.logoUrl} width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0" alt="" />
                           ) : (
                             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-200 shrink-0" />
                           )}
@@ -80,7 +81,7 @@ export default async function PublicCalendarPage(props: { params: Promise<{ id: 
                         </div>
                         <div className="flex items-center space-x-2 sm:space-x-3 w-5/12 min-w-0">
                           {match.awayTeam.logoUrl ? (
-                            <img src={match.awayTeam.logoUrl} className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0" alt="" />
+                            <Image src={match.awayTeam.logoUrl} width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0" alt="" />
                           ) : (
                             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-200 shrink-0" />
                           )}

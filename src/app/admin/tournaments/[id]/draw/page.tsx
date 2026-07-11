@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import DrawButton from './DrawButton'
@@ -46,7 +47,7 @@ export default async function DrawPage(props: { params: Promise<{ id: string }> 
                 <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                   <div className="flex items-center">
                     {tournamentTeam.team.logoUrl ? (
-                      <img src={tournamentTeam.team.logoUrl} className="w-8 h-8 rounded-full" alt="logo" />
+                      <Image src={tournamentTeam.team.logoUrl} width={32} height={32} className="w-8 h-8 rounded-full" alt="logo" />
                     ) : (
                       <div className="w-8 h-8 rounded-full bg-gray-200" />
                     )}

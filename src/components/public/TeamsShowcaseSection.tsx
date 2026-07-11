@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export async function TeamsShowcaseSection() {
@@ -21,7 +22,7 @@ export async function TeamsShowcaseSection() {
         {teams.map(team => (
           <div key={team.id} className="group flex flex-col items-center">
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center p-3 group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
-              <img src={team.logoUrl!} alt={team.name} className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300" />
+              <Image src={team.logoUrl!} alt={team.name} width={96} height={96} loading="lazy" className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300" />
             </div>
             <span className="mt-3 text-xs font-bold text-gray-400 group-hover:text-brand-primary text-center truncate w-full px-2 transition-colors">
               {team.name}

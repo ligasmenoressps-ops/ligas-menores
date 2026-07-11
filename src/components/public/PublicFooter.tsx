@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, FileText } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 
@@ -39,7 +40,7 @@ export async function PublicFooter() {
                     {category.teams.map(team => (
                       <li key={team.id} className="flex items-center gap-2.5">
                         {team.logoUrl ? (
-                          <img src={team.logoUrl} alt={team.name} className="w-6 h-6 object-contain bg-white rounded-full p-0.5" />
+                          <Image src={team.logoUrl} alt={team.name} width={24} height={24} className="w-6 h-6 object-contain bg-white rounded-full p-0.5" />
                         ) : (
                           <div className="w-6 h-6 bg-slate-700 rounded-full flex items-center justify-center text-[9px] font-bold text-slate-300">
                             {team.name.substring(0, 2).toUpperCase()}

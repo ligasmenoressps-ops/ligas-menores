@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import Image from 'next/image'
 
 export default async function PublicBracketPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params
@@ -64,7 +65,7 @@ export default async function PublicBracketPage(props: { params: Promise<{ id: s
                       <div className="flex items-center justify-between p-3 border-b bg-white">
                         <div className="flex items-center space-x-3">
                           {match.homeTeam.logoUrl ? (
-                            <img src={match.homeTeam.logoUrl} className="w-6 h-6 object-contain" alt="" />
+                            <Image src={match.homeTeam.logoUrl} width={24} height={24} className="w-6 h-6 object-contain" alt="" />
                           ) : (
                             <div className="w-6 h-6 rounded-full bg-gray-200" />
                           )}
@@ -84,7 +85,7 @@ export default async function PublicBracketPage(props: { params: Promise<{ id: s
                       <div className="flex items-center justify-between p-3 bg-white">
                         <div className="flex items-center space-x-3">
                           {match.awayTeam.logoUrl ? (
-                            <img src={match.awayTeam.logoUrl} className="w-6 h-6 object-contain" alt="" />
+                            <Image src={match.awayTeam.logoUrl} width={24} height={24} className="w-6 h-6 object-contain" alt="" />
                           ) : (
                             <div className="w-6 h-6 rounded-full bg-gray-200" />
                           )}

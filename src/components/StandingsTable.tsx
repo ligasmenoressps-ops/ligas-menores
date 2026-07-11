@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { StandingsRow } from '@/lib/standings'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
@@ -77,7 +78,7 @@ export default function StandingsTable({ standings, qualifiedCount = 0, compact 
                     </td>
                     <td className="px-4 py-4 font-medium text-brand-dark whitespace-nowrap flex items-center space-x-3">
                       {row.logoUrl ? (
-                        <img src={row.logoUrl} alt={`${row.teamName} logo`} className="w-6 h-6 object-contain" />
+                        <Image src={row.logoUrl} alt={`${row.teamName} logo`} width={24} height={24} className="w-6 h-6 object-contain" />
                       ) : (
                         <div className="w-6 h-6 bg-gray-200 rounded-full" />
                       )}

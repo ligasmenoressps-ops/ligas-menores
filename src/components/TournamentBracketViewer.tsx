@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import Image from 'next/image'
 
 const PHASE_ORDER = [
   'Dieciseisavos de final',
@@ -157,7 +158,7 @@ export default function TournamentBracketViewer({ knockoutMatches }: { knockoutM
                           <div className={`flex items-center justify-between px-3 py-2 border-b border-gray-100 ${match.homeTeam.isWinner ? 'bg-green-50/30' : ''}`}>
                             <div className="flex items-center space-x-2 overflow-hidden">
                               {match.homeTeam.logo ? (
-                                <img src={match.homeTeam.logo} alt="" className="w-5 h-5 rounded-full object-cover" />
+                                <Image src={match.homeTeam.logo} alt="" width={20} height={20} className="w-5 h-5 rounded-full object-cover" />
                               ) : (
                                 <div className="w-5 h-5 rounded-full bg-gray-200" />
                               )}
@@ -179,7 +180,7 @@ export default function TournamentBracketViewer({ knockoutMatches }: { knockoutM
                           <div className={`flex items-center justify-between px-3 py-2 ${match.awayTeam.isWinner ? 'bg-green-50/30' : ''}`}>
                             <div className="flex items-center space-x-2 overflow-hidden">
                               {match.awayTeam.logo ? (
-                                <img src={match.awayTeam.logo} alt="" className="w-5 h-5 rounded-full object-cover" />
+                                <Image src={match.awayTeam.logo} alt="" width={20} height={20} className="w-5 h-5 rounded-full object-cover" />
                               ) : (
                                 <div className="w-5 h-5 rounded-full bg-gray-200" />
                               )}

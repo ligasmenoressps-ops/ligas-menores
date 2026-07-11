@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { getSystemSettings } from '@/lib/data/settings'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, MapPin, Trophy, Activity, ChevronRight } from 'lucide-react'
 
@@ -104,7 +105,7 @@ export async function PublicHero() {
                     <div className="flex-1 flex flex-col items-center text-center">
                       <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-full flex items-center justify-center p-4 mb-4 backdrop-blur-sm border border-white/20 shadow-2xl">
                         {nextMatch.homeTeam.logoUrl ? (
-                          <img src={nextMatch.homeTeam.logoUrl} alt={nextMatch.homeTeam.name} className="w-full h-full object-contain drop-shadow-md" />
+                          <Image src={nextMatch.homeTeam.logoUrl} alt={nextMatch.homeTeam.name} width={128} height={128} className="w-full h-full object-contain drop-shadow-md" priority />
                         ) : (
                           <Trophy className="w-12 h-12 text-white/50" />
                         )}
@@ -119,7 +120,7 @@ export async function PublicHero() {
                     <div className="flex-1 flex flex-col items-center text-center">
                       <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-full flex items-center justify-center p-4 mb-4 backdrop-blur-sm border border-white/20 shadow-2xl">
                         {nextMatch.awayTeam.logoUrl ? (
-                          <img src={nextMatch.awayTeam.logoUrl} alt={nextMatch.awayTeam.name} className="w-full h-full object-contain drop-shadow-md" />
+                          <Image src={nextMatch.awayTeam.logoUrl} alt={nextMatch.awayTeam.name} width={128} height={128} className="w-full h-full object-contain drop-shadow-md" priority />
                         ) : (
                           <Trophy className="w-12 h-12 text-white/50" />
                         )}
@@ -190,7 +191,7 @@ export async function PublicHero() {
                     <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 border border-gray-100">
                       <div className="flex items-center gap-3">
                         {lastMatch.homeTeam.logoUrl ? (
-                          <img src={lastMatch.homeTeam.logoUrl} alt="" className="w-8 h-8 object-contain" />
+                          <Image src={lastMatch.homeTeam.logoUrl} alt="" width={32} height={32} className="w-8 h-8 object-contain" />
                         ) : <div className="w-8 h-8 bg-gray-200 rounded-full"></div>}
                         <span className={`font-bold ${lastMatch.homeGoals! > lastMatch.awayGoals! ? 'text-brand-dark' : 'text-gray-500'}`}>{lastMatch.homeTeam.name}</span>
                       </div>
@@ -200,7 +201,7 @@ export async function PublicHero() {
                     <div className="flex justify-between items-center p-3 rounded-lg bg-gray-50 border border-gray-100">
                       <div className="flex items-center gap-3">
                         {lastMatch.awayTeam.logoUrl ? (
-                          <img src={lastMatch.awayTeam.logoUrl} alt="" className="w-8 h-8 object-contain" />
+                          <Image src={lastMatch.awayTeam.logoUrl} alt="" width={32} height={32} className="w-8 h-8 object-contain" />
                         ) : <div className="w-8 h-8 bg-gray-200 rounded-full"></div>}
                         <span className={`font-bold ${lastMatch.awayGoals! > lastMatch.homeGoals! ? 'text-brand-dark' : 'text-gray-500'}`}>{lastMatch.awayTeam.name}</span>
                       </div>

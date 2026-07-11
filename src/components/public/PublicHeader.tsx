@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X, ChevronDown, User } from 'lucide-react';
 
 interface Category {
@@ -34,7 +35,7 @@ export function PublicHeader({ categories, settings }: { categories: Category[],
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-2">
               {settings?.appLogoUrl ? (
-                <img src={settings.appLogoUrl} alt={settings?.appName || 'Logo'} className="w-10 h-10 object-contain rounded-full bg-white p-1" />
+                <Image src={settings.appLogoUrl} alt={settings?.appName || 'Logo'} width={40} height={40} className="w-10 h-10 object-contain rounded-full bg-white p-1" />
               ) : (
                 <div className="w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center text-white font-black text-xl shadow-sm">
                   {settings?.appName ? settings.appName.substring(0, 2).toUpperCase() : 'LM'}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { MatchForm } from './MatchForm'
 import { MatchResultForm } from './MatchResultForm'
 
@@ -52,7 +53,7 @@ export function MatchEditRow({
         <div className="flex items-center space-x-4 text-sm font-medium text-gray-900">
           <div className="flex items-center space-x-2 w-32 justify-end">
             <span>{match.homeTeam.name}</span>
-            {match.homeTeam.logoUrl && <img src={match.homeTeam.logoUrl} alt="logo" className="w-5 h-5" />}
+            {match.homeTeam.logoUrl && <Image src={match.homeTeam.logoUrl} alt="logo" width={20} height={20} className="w-5 h-5" />}
           </div>
           <div className="px-3 flex flex-col justify-center items-center min-w-[4rem]">
             {match.status === 'PLAYED' ? (
@@ -73,7 +74,7 @@ export function MatchEditRow({
             )}
           </div>
           <div className="flex items-center space-x-2 w-32">
-            {match.awayTeam.logoUrl && <img src={match.awayTeam.logoUrl} alt="logo" className="w-5 h-5" />}
+            {match.awayTeam.logoUrl && <Image src={match.awayTeam.logoUrl} alt="logo" width={20} height={20} className="w-5 h-5" />}
             <span>{match.awayTeam.name}</span>
           </div>
         </div>

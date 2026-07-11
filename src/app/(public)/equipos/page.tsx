@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 
 export default async function EquiposPage() {
@@ -42,7 +43,7 @@ export default async function EquiposPage() {
                       <div key={team.id} className="group flex flex-col items-center w-full">
                         <div className="w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center p-4 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
                           {team.logoUrl ? (
-                            <img src={team.logoUrl} alt={team.name} className="max-w-full max-h-full object-contain" />
+                            <Image src={team.logoUrl} alt={team.name} width={112} height={112} className="max-w-full max-h-full object-contain" />
                           ) : (
                             <div className="w-full h-full bg-gray-100 rounded-full flex items-center justify-center text-xl font-bold text-gray-400">
                               {team.name.substring(0, 2).toUpperCase()}
