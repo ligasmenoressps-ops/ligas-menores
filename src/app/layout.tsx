@@ -12,14 +12,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import { prisma } from '@/lib/prisma';
+import { getSystemSettings } from '@/lib/data/settings';
 
 export async function generateMetadata(): Promise<Metadata> {
   let appName = "Ligas Menores";
   let subtitle = "Plataforma integral para gestionar torneos, equipos, calendarios y estadísticas de ligas menores.";
   
   try {
-    const settings = await prisma.systemSettings.findFirst();
+    const settings = await getSystemSettings();
     if (settings) {
       appName = settings.appName;
       if (settings.heroSubtitle) subtitle = settings.heroSubtitle;

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { getCategories } from '@/lib/data/categories';
 import { RecentResultsTabs } from './RecentResultsTabs';
 import { MatchSummary } from '@/lib/types';
 
@@ -20,7 +21,7 @@ export async function RecentResultsSection() {
     }
   });
 
-  const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } });
+  const categories = await getCategories();
   
   const resultsByCategory: Record<string, MatchSummary[]> = {};
   categories.forEach(cat => {

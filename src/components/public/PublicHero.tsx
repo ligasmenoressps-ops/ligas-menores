@@ -1,64 +1,71 @@
 import { prisma } from '@/lib/prisma'
+import { getSystemSettings } from '@/lib/data/settings'
 import Link from 'next/link'
 import { Calendar, MapPin, Trophy, Activity, ChevronRight } from 'lucide-react'
 
 export async function PublicHero() {
   const now = new Date()
 
-  const nextMatch = await prisma.match.findFirst({
-    where: { 
-      status: 'SCHEDULED',
-      time: { gte: now }
-    },
-    orderBy: { time: 'asc' },
-    include: {
-      homeTeam: true,
-      awayTeam: true,
-      venue: true,
-      matchday: { include: { tournament: { include: { category: true } } } }
-    }
-  }) || await prisma.match.findFirst({
-    where: { status: 'SCHEDULED' },
-    orderBy: { time: 'asc' },
-    include: {
-      homeTeam: true,
-      awayTeam: true,
-      venue: true,
-      matchday: { include: { tournament: { include: { category: true } } } }
-    }
-  });
+  const getNextMatch = async () => {
+    const match = await prisma.match.findFirst({
+      where: { 
+        status: 'SCHEDULED',
+        time: { gte: now }
+      },
+      orderBy: { time: 'asc' },
+      include: {
+        homeTeam: true,
+        awayTeam: true,
+        venue: true,
+        matchday: { include: { tournament: { include: { category: true } } } }
+      }
+    });
+    if (match) return match;
 
-  const lastMatch = await prisma.match.findFirst({
-    where: { status: 'PLAYED' },
-    orderBy: { time: 'desc' },
-    include: {
-      homeTeam: true,
-      awayTeam: true,
-      matchday: { include: { tournament: { include: { category: true } } } }
-    }
-  });
+    return prisma.match.findFirst({
+      where: { status: 'SCHEDULED' },
+      orderBy: { time: 'asc' },
+      include: {
+        homeTeam: true,
+        awayTeam: true,
+        venue: true,
+        matchday: { include: { tournament: { include: { category: true } } } }
+      }
+    });
+  };
 
-  const activeTournaments = await prisma.tournament.findMany({
-    include: {
-      category: true,
-      matchdays: {
-        include: {
-          _count: {
-            select: { matches: { where: { status: 'PLAYED' } } }
+  const [nextMatch, lastMatch, activeTournaments, settings] = await Promise.all([
+    getNextMatch(),
+    prisma.match.findFirst({
+      where: { status: 'PLAYED' },
+      orderBy: { time: 'desc' },
+      include: {
+        homeTeam: true,
+        awayTeam: true,
+        matchday: { include: { tournament: { include: { category: true } } } }
+      }
+    }),
+    prisma.tournament.findMany({
+      include: {
+        category: true,
+        matchdays: {
+          include: {
+            _count: {
+              select: { matches: { where: { status: 'PLAYED' } } }
+            }
           }
         }
       }
-    }
-  });
-  
+    }),
+    getSystemSettings()
+  ]);
+
   const sortedTournaments = activeTournaments.map(t => ({
     ...t,
     playedMatchesCount: t.matchdays.reduce((acc, md) => acc + md._count.matches, 0)
   })).sort((a, b) => b.playedMatchesCount - a.playedMatchesCount);
 
   const mostActiveTournament = sortedTournaments.length > 0 ? sortedTournaments[0] : null;
-
-  const settings = await prisma.systemSettings.findFirst()
   const appName = settings?.appName || 'Ligas Menores'
   const heroSubtitle = settings?.heroSubtitle || 'Sigue de cerca a las futuras estrellas del fútbol.'
 

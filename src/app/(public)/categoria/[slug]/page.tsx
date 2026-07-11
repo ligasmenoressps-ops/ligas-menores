@@ -1,6 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { getCategories } from '@/lib/data/categories';
 import { CategoryTabs } from '@/components/public/CategoryTabs';
 import { MatchHeroCard, MatchHeroData, CategoryStatsData } from '@/components/public/MatchHeroCard';
 import { RecentResultsGrid } from '@/components/public/RecentResultsGrid';
@@ -21,34 +22,31 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
-  // Fetch all categories for the tab navigation
-  const allCategories = await prisma.category.findMany({
-    orderBy: { name: 'asc' },
-    select: { name: true }
-  });
-
-  // Find active tournament for this category
-  const tournament = await prisma.tournament.findFirst({
-    where: { categoryId: category.id },
-    orderBy: { createdAt: 'desc' },
-    include: {
-      teams: {
-        include: { team: true }
-      },
-      matchdays: {
-        include: {
-          matches: {
-            include: {
-              homeTeam: true,
-              awayTeam: true,
-              venue: true
-            }
-          }
+  // Fetch all categories for the tab navigation and find active tournament for this category in parallel
+  const [allCategories, tournament] = await Promise.all([
+    getCategories(),
+    prisma.tournament.findFirst({
+      where: { categoryId: category.id },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        teams: {
+          include: { team: true }
         },
-        orderBy: { number: 'asc' }
+        matchdays: {
+          include: {
+            matches: {
+              include: {
+                homeTeam: true,
+                awayTeam: true,
+                venue: true
+              }
+            }
+          },
+          orderBy: { number: 'asc' }
+        }
       }
-    }
-  });
+    })
+  ]);
 
   let heroMatch: MatchHeroData | null = null;
   let recentMatches: MatchSummary[] = [];

@@ -1,15 +1,13 @@
 import React from 'react';
 import { PublicHeader } from '@/components/public/PublicHeader';
 import { PublicFooter } from '@/components/public/PublicFooter';
-import { prisma } from '@/lib/prisma';
+import { getCategories } from '@/lib/data/categories';
+import { getSystemSettings } from '@/lib/data/settings';
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
-  const categories = await prisma.category.findMany({
-    select: { name: true },
-    orderBy: { name: 'asc' }
-  });
+  const categories = await getCategories();
 
-  const settings = await prisma.systemSettings.findFirst();
+  const settings = await getSystemSettings();
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
